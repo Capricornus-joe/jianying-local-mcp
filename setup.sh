@@ -7,4 +7,4 @@ if [ ! -x "$PROJECT_DIR/.venv/bin/python" ]; then
     "$PYTHON_BIN" -m venv "$PROJECT_DIR/.venv"
 fi
 "$PROJECT_DIR/.venv/bin/python" -m pip install -e "$PROJECT_DIR[test]"
-printf '%s\n' '安装完成。运行 ./run.sh doctor 检查环境；./run.sh 启动 MCP。'
+printf '%s\n' '安装完成。运行 bash run.sh doctor 检查环境；bash run.sh 启动 MCP。'
