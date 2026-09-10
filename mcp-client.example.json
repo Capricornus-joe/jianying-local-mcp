@@ -1,0 +1,12 @@
+{
+  "mcpServers": {
+    "jianying-local": {
+      "command": "/absolute/path/to/jianying-local-mcp/.venv/bin/python",
+      "args": [
+        "-m",
+        "jianying_local_mcp",
+        "serve"
+      ]
+    }
+  }
+}

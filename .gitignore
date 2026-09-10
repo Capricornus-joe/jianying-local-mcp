@@ -1,0 +1,36 @@
+# Local Python environments and build products
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+.coverage.*
+htmlcov/
+build/
+dist/
+
+# Generated media, managed drafts, and local benchmark outputs
+/projects/
+/examples/generated/
+/work/
+/benchmark-results/
+*.processing.json
+
+# Machine-specific MCP settings and credentials
+/mcp-client.local.json
+*.local.json
+.env
+.env.*
+!.env.example
+
+# OS/editor files
+.DS_Store
+._*
+.idea/
+.vscode/
+*.swp
+*.swo
