@@ -6,6 +6,8 @@
 
 先看一个实际完成的案例：**《入戏·川剧初体验》**。
 
+**就这支案例的观感，我认为它已经接近认真学习并持续练习剪辑一年后，能交出的进阶作品。** 统一的国风配色、照片层叠、书法标题与分层字幕，共同构成了这支片子的制作完成度。
+
 [![《入戏·川剧初体验》——点击观看案例预览](docs/assets/showcase-poster.jpg)](docs/assets/showcase-preview.mp4)
 
 **[▶ 观看案例预览](docs/assets/showcase-preview.mp4) · [查看重建过程与工程边界](docs/case-study.md)**
