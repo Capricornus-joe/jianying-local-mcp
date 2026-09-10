@@ -109,7 +109,7 @@ JIANYING_SETUP_PYTHON=python3.11 bash setup.sh
 
 `publish_draft` 不会上传到互联网，也不会启动剪映或导出 MP4。若先试下一节批处理，可以只登记最终版本。
 
-## 五步编辑，一次保存
+## 批量编辑
 
 对已有的 `hello-mcp-v1` 调用 **`batch_edit`**。下面依次改文字、加粗、统一字号、加描边、添加渐显关键帧，最终只创建 `hello-mcp-v2`：
 
@@ -154,7 +154,7 @@ JIANYING_SETUP_PYTHON=python3.11 bash setup.sh
 
 渐显等透明度关键帧存在应用版本差异，需检查实际导出。时间单位统一为秒：`start` 是时间线位置，`source_start` 是素材入点，`duration` 是时间线时长，消耗源素材时长为 `duration × speed`。同轨片段不能重叠；叠加画面或文字使用不同轨道。剪裁、排序通常应先于动画和转场。
 
-### 减少返回数据与重复探测
+### 返回数据与素材缓存
 
 - 返回剪辑计划的写入工具默认只给摘要；需要全量数据时传 `include_plan=true`。
 - `read_managed_project` 默认 `view="summary"`。取得片段 ID 可用 `{"name":"hello-mcp-v2","view":"clips","offset":0,"limit":50,"track":"字幕"}`；每页最多 200 段。完整计划用 `view="full"`。
