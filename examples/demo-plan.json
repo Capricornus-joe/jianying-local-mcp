@@ -1,0 +1,18 @@
+{
+  "name": "MCP文字示例",
+  "width": 1920,
+  "height": 1080,
+  "fps": 30,
+  "clips": [
+    {
+      "id": "title",
+      "kind": "text",
+      "track": "字幕",
+      "text": "你好，剪映 MCP",
+      "start": 0,
+      "duration": 6,
+      "font_size": 48,
+      "color": "#FFFFFF"
+    }
+  ]
+}
