@@ -1,82 +1,64 @@
-# Jianying Local MCP
+# AI video editing with Jianying
 
-**Give AI edits a timeline you can keep working on.**
+**Jianying Local MCP** lets an AI client automate video edits using your local media on Mac. The AI plans the edit and calls tools; the MCP creates or updates a local Jianying draft. You review and export the result in Jianying. [中文](README.md)
 
-[中文完整文档](README.md)
+[![《入戏·川剧初体验》 — watch the film](docs/assets/showcase-poster.jpg)](docs/assets/showcase-preview.mp4)
 
-[![Sichuan Opera showcase — watch the preview](docs/assets/showcase-poster.jpg)](docs/assets/showcase-preview.mp4)
+[▶ Watch the film (720p preview; 1080p master)](docs/assets/showcase-preview.mp4) · [How it was made](docs/case-study.md) · [Quick start](docs/quickstart.md)
 
-**Showcase:《入戏·川剧初体验》** — 59.52 seconds, 1080p, 25 fps; 23 scenes, six main timeline tracks, and 28 subtitle lines split into 36 editable text segments. Rebuilt from original media, with separate PNGs for calligraphy and native motion/crop parameters. This case used additional project-specific adapters outside the package: it is **not a one-click result of the generic MCP**, nor a pixel-identical reconstruction. Original footage is not included. [Watch the preview](docs/assets/showcase-preview.mp4) · [Read the case study](docs/case-study.md).
+I built this while making **《入戏·川剧初体验》**, a short film about a first encounter with Sichuan opera. It brings theatre, face-changing, fire-breathing and a costume fitting into 59.52 seconds at 1080p, 25 fps. To my eye, it has the finish I'd expect after a year of serious editing practice. The result is a Jianying project I can open to change a line, replace a shot or adjust the movement.
 
-Version **0.3.0** exposes **22 tools** over local **stdio** for video, images, audio, editable subtitles, keyframes and selected native effects. The draft generator is independently implemented. It does not require a third-party Jianying draft library at runtime or upload media while processing it.
+## Animation
 
-This is an unofficial, experimental Mac draft adapter, with no affiliation to Jianying, CapCut or ByteDance. **Reliable native auto-export, encrypted drafts and arbitrary existing-project editing are not supported.** Open and verify generated drafts in your installed Jianying version, then export there.
+Let a photo slide into place, slowly push in, or fade away. The movement is written as native keyframes, so you can change its timing and values in Jianying. The MCP provides nine linear motion presets and accepts custom keyframes for position, scale, rotation and opacity.
 
-## Install
+For this film, a separate script sampled smoothstep easing at 25 fps and wrote those values into native keyframes, alongside crop and transform settings. That is how the layered photos ease into place.
 
-Requirements: **macOS and Python 3.11+**; Jianying for native preview/export. Dependencies pin the MCP Python SDK to **`mcp>=1.28,<2`**.
+![Photo animation and native keyframe controls in Jianying](docs/assets/jianying-animation.png)
+
+## Editable subtitles
+
+Import an SRT file or create text clips directly. Correct one sentence, change its timing, or apply a font size, colour and position across a subtitle track. You can export the text and timing back to SRT.
+
+The film has **28 subtitle lines in 36 native text clips**. The calligraphy titles are separate PNG layers: you can move, resize or replace them, but their individual letters are not editable text.
+
+![A subtitle selected with its text and style controls visible](docs/assets/jianying-subtitles.png)
+
+## Organized timeline
+
+Keep footage, titles, decorations and sound on named tracks. Add a shot, split a clip, reorder a sequence, or remove a section and close the gap. Each saved revision keeps the previous one available.
+
+In the showcase, a project-specific adapter groups the photo, paper border, shadow and lettering layers into **23 scene compound clips within a six-track main timeline**. Open a scene to adjust its individual layers. The MCP itself supports layered tracks; scene grouping is part of the case adapter.
+
+![The showcase timeline with its separate scene layers](docs/assets/jianying-layers.png)
+
+## Batch edits
+
+Change the text, make it bold, adjust the size, add an outline and give it a fade-in—all in one `batch_edit` call. Each step is checked in memory; once all five pass, the tool saves one new revision. The source revision stays in place, with no intermediate media copies to clean up.
+
+Version **0.3.0** also returns compact results by default and reuses metadata for unchanged media. These changes cut repeated calls, probing and disk writes. The [performance notes](docs/performance.md) explain what was measured.
+
+## Get started
+
+You need **macOS and Python 3.11+**, with Jianying installed to preview and export drafts.
 
 ```sh
-git clone https://github.com/mjz925804554-jpg/jianying-local-mcp.git
+git clone https://github.com/Capricornus-joe/jianying-local-mcp.git
 cd jianying-local-mcp
 bash setup.sh
 bash run.sh doctor
 ```
 
-This installs from source into a local `.venv`; it does not assume a PyPI release. To select Python explicitly, use `JIANYING_SETUP_PYTHON=python3.11 bash setup.sh`.
+Follow the [quick start](docs/quickstart.md) to connect your MCP client and make a small text-only draft before adding your own footage. The server runs locally over stdio and exposes **22 tools**.
 
-## Connect a client
+## Current scope
 
-For clients using the `mcpServers` format, replace both paths with actual absolute paths:
+This is an experimental Mac draft adapter. It edits its own managed plans; it does not read encrypted drafts, rewrite arbitrary existing projects, or reliably automate native export. Open each generated draft in your installed Jianying version, check it and export there. The showcase also used scripts outside the package for scene grouping and visual calibration, so it is not a one-click result of the general MCP or a pixel-identical reconstruction. Original footage is not included. See [compatibility](docs/compatibility.md) and the [case study](docs/case-study.md) for details.
 
-```json
-{
-  "mcpServers": {
-    "jianying-local": {
-      "command": "/absolute/path/to/jianying-local-mcp/.venv/bin/python",
-      "args": ["-m", "jianying_local_mcp", "serve"],
-      "env": {
-        "JIANYING_MCP_WORKSPACE": "/absolute/path/to/jianying-local-mcp/projects"
-      }
-    }
-  }
-}
-```
+## Docs and contributions
 
-Reload the client, call `check_environment`, then follow the [text-only first draft and five-step batch example](README.md#快速开始). The client normally starts the stdio process; there is no web interface.
+[Tools](docs/tools.md) · [Compatibility](docs/compatibility.md) · [Performance](docs/performance.md) · [Draft structure](docs/native-schema.md) · [Troubleshooting](docs/troubleshooting.md)
 
-## What v0.3.0 changes
+Have a clip you want to make, or a Jianying version to test? Open an [issue](https://github.com/Capricornus-joe/jianying-local-mcp/issues) or see [Contributing](CONTRIBUTING.md). Please use synthetic media for reproductions and remove private paths and account details from logs.
 
-- `batch_edit` applies 1–100 ordered steps in memory and creates one final revision, without intermediate project/media copies. It retains the source revision.
-- Plan-returning write tools return compact summaries by default. Use `include_plan=true` for the full plan.
-- `read_managed_project` defaults to a summary; `view="clips"` supports track filtering and pagination, and `view="full"` returns the complete plan.
-- A bounded, five-minute in-process cache reuses unchanged media metadata and merges concurrent probes. It does not cache full decoded video.
-
-The historical local stdio benchmark reduced five editing calls/revisions to one. This is a local editing benchmark, **not an end-to-end rendering speedup or a token-billing claim**. See [measurements and scope](docs/performance.md).
-
-## Boundaries
-
-Edits apply only to this MCP's managed plans and always use a new revision name. New revisions still copy referenced media into a self-contained package. Publishing creates a new native project and registers it on Jianying's home page; fully quit Jianying first. Publishing neither uploads nor renders the project. Native GUI edits do not sync back to managed plans.
-
-Native effects require valid local caches; this server does not download effect packs. Media preprocessing creates new baked files. Unsupported effect/timing combinations fail explicitly. `review_scope` is a review hint, and `native_app_verified=false` remains the default for every newly generated draft.
-
-## Documentation and tests
-
-- [Complete Chinese README and all 22 tools](README.md)
-- [Tool reference](docs/tools.md)
-- [Compatibility and limitations](docs/compatibility.md)
-- [Native draft structure](docs/native-schema.md)
-- [Troubleshooting](docs/troubleshooting.md)
-- [Case study](docs/case-study.md)
-
-```sh
-.venv/bin/python -m pytest -q
-```
-
-Historical local v0.3.0 verification recorded **375 passing tests and 60 subtests**, plus real stdio checks. This is not a claim about current GitHub CI or all installed Jianying versions.
-
-## Contributing and license
-
-Use [Issues](https://github.com/mjz925804554-jpg/jianying-local-mcp/issues) and [Pull Requests](https://github.com/mjz925804554-jpg/jianying-local-mcp/pulls). Include version information, a minimal synthetic reproduction and sanitized logs. Keep private media, account details, device identifiers and personal paths out of public fixtures.
-
-The code is [MIT-licensed](LICENSE); third-party copyrights and dependency notices remain in [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md). See the [case study](docs/case-study.md) for media rights; the code license does not grant rights to third-party footage. Documentation structure draws on the [MCP Python SDK v1.x](https://github.com/modelcontextprotocol/python-sdk/tree/v1.x) and [capcut-cli](https://github.com/renezander030/capcut-cli); their compatibility claims do not transfer to this project.
+The code is [MIT-licensed](LICENSE). [Third-party notices](THIRD_PARTY_NOTICES.md) and [case media rights](docs/case-study.md) still apply. This is an independent project, unaffiliated with Jianying, CapCut or ByteDance.

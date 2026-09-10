@@ -23,7 +23,7 @@ testpaths = ["tests"]
 pythonpath = ["."]
 
 [project.urls]
-Homepage = "https://github.com/mjz925804554-jpg/jianying-local-mcp"
-Repository = "https://github.com/mjz925804554-jpg/jianying-local-mcp"
-Issues = "https://github.com/mjz925804554-jpg/jianying-local-mcp/issues"
-Documentation = "https://github.com/mjz925804554-jpg/jianying-local-mcp/blob/main/docs/tools.md"
+Homepage = "https://github.com/Capricornus-joe/jianying-local-mcp"
+Repository = "https://github.com/Capricornus-joe/jianying-local-mcp"
+Issues = "https://github.com/Capricornus-joe/jianying-local-mcp/issues"
+Documentation = "https://github.com/Capricornus-joe/jianying-local-mcp/blob/main/docs/tools.md"
