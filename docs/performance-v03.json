@@ -1,0 +1,66 @@
+{
+  "scope": "3 rounds of real MCP stdio;100 synthetic captions plus105s silent WAV;five ordered changes. Excludes app launch/render/export, client startup,model latency and source creation. Sequential is current implementation with legacy five-save/full-result usage, not an archived old binary.",
+  "rounds": [
+    {
+      "sequential_seconds": 0.23546829202678055,
+      "batch_seconds": 0.030939957941882312,
+      "sequential_tool_calls": 5,
+      "batch_tool_calls": 1,
+      "sequential_revision_count": 5,
+      "batch_revision_count": 1,
+      "sequential_media_bytes": 50400220,
+      "batch_media_bytes": 10080044,
+      "sequential_response_bytes": 205234,
+      "batch_response_bytes": 2273,
+      "final_clip_semantics_equal": true,
+      "failed_batch_no_writes": true,
+      "default_compact_and_pagination_verified": true
+    },
+    {
+      "sequential_seconds": 0.22476791602093726,
+      "batch_seconds": 0.030408459017053246,
+      "sequential_tool_calls": 5,
+      "batch_tool_calls": 1,
+      "sequential_revision_count": 5,
+      "batch_revision_count": 1,
+      "sequential_media_bytes": 50400220,
+      "batch_media_bytes": 10080044,
+      "sequential_response_bytes": 205234,
+      "batch_response_bytes": 2273,
+      "final_clip_semantics_equal": true,
+      "failed_batch_no_writes": true,
+      "default_compact_and_pagination_verified": true
+    },
+    {
+      "sequential_seconds": 0.23019416606985033,
+      "batch_seconds": 0.03009370795916766,
+      "sequential_tool_calls": 5,
+      "batch_tool_calls": 1,
+      "sequential_revision_count": 5,
+      "batch_revision_count": 1,
+      "sequential_media_bytes": 50400220,
+      "batch_media_bytes": 10080044,
+      "sequential_response_bytes": 205234,
+      "batch_response_bytes": 2273,
+      "final_clip_semantics_equal": true,
+      "failed_batch_no_writes": true,
+      "default_compact_and_pagination_verified": true
+    }
+  ],
+  "medians": {
+    "sequential_seconds": 0.23019416606985033,
+    "batch_seconds": 0.030408459017053246,
+    "sequential_tool_calls": 5,
+    "batch_tool_calls": 1,
+    "sequential_revision_count": 5,
+    "batch_revision_count": 1,
+    "sequential_media_bytes": 50400220,
+    "batch_media_bytes": 10080044,
+    "sequential_response_bytes": 205234,
+    "batch_response_bytes": 2273
+  },
+  "temporary_projects_removed": true,
+  "response_measure": "UTF-8 serialized MCP CallToolResult bytes (text plus structured content), not billed tokens",
+  "wall_speedup": 7.570070089403612,
+  "response_reduction_percent": 98.89248370153094
+}
