@@ -1,46 +1,42 @@
 # AI video editing with Jianying
 
-**Jianying Local MCP** lets an AI client automate video edits using your local media on Mac. The AI plans the edit and calls tools; the MCP creates or updates a local Jianying draft. You review and export the result in Jianying. [中文](README.md)
+**Jianying Local MCP** is a local stdio server for video editing with Jianying on Mac. An AI client plans edits and calls its 22 tools; the MCP writes local drafts for preview and export in Jianying. [中文](README.md)
 
-[![《入戏·川剧初体验》 — watch the film](docs/assets/showcase-poster.jpg)](docs/assets/showcase-preview.mp4)
+## Demo
 
-[▶ Watch the film (720p preview; 1080p master)](docs/assets/showcase-preview.mp4) · [How it was made](docs/case-study.md) · [Quick start](docs/quickstart.md)
+[![《入戏·川剧初体验》](docs/assets/showcase-poster.jpg)](docs/assets/showcase-preview.mp4)
 
-I built this while making **《入戏·川剧初体验》**, a short film about a first encounter with Sichuan opera. It brings theatre, face-changing, fire-breathing and a costume fitting into 59.52 seconds at 1080p, 25 fps. To my eye, it has the finish I'd expect after a year of serious editing practice. The result is a Jianying project I can open to change a line, replace a shot or adjust the movement.
+**《入戏·川剧初体验》**: 59.52 seconds, 1080p, 25 fps; 23 scenes and six main tracks. The linked preview is 720p. In my view, its finish is comparable to work produced after about a year of regular editing practice.
 
-## Animation
+The demo's easing, compound scenes and visual calibration use project-specific adapters outside the package; the [case study](docs/case-study.md) documents these additions and the remaining differences from the reference.
 
-Let a photo slide into place, slowly push in, or fade away. The movement is written as native keyframes, so you can change its timing and values in Jianying. The MCP provides nine linear motion presets and accepts custom keyframes for position, scale, rotation and opacity.
+## Features
 
-For this film, a separate script sampled smoothstep easing at 25 fps and wrote those values into native keyframes, alongside crop and transform settings. That is how the layered photos ease into place.
+### Native keyframes
 
-![Photo animation and native keyframe controls in Jianying](docs/assets/jianying-animation.png)
+Control position, scale, rotation and opacity with native keyframes. Nine linear motion presets cover common movements and fades; custom keyframe values are also supported.
 
-## Editable subtitles
+![Native keyframes and transform controls](docs/assets/jianying-animation.png)
 
-Import an SRT file or create text clips directly. Correct one sentence, change its timing, or apply a font size, colour and position across a subtitle track. You can export the text and timing back to SRT.
+### Subtitle editing
 
-The film has **28 subtitle lines in 36 native text clips**. The calligraphy titles are separate PNG layers: you can move, resize or replace them, but their individual letters are not editable text.
+Create native text clips or import SRT. Edit individual lines, apply size, colour and position across a track, and export text and timing to SRT. The demo contains 28 lines in 36 text clips. Calligraphy titles are separate PNGs, without editable letters.
 
-![A subtitle selected with its text and style controls visible](docs/assets/jianying-subtitles.png)
+![Native subtitle text and style controls](docs/assets/jianying-subtitles.png)
 
-## Organized timeline
+### Multitrack editing
 
-Keep footage, titles, decorations and sound on named tracks. Add a shot, split a clip, reorder a sequence, or remove a section and close the gap. Each saved revision keeps the previous one available.
+Organize footage, images, text and audio on named tracks. Append, split and reorder clips, or ripple-delete a section. Each saved revision preserves the previous version.
 
-In the showcase, a project-specific adapter groups the photo, paper border, shadow and lettering layers into **23 scene compound clips within a six-track main timeline**. Open a scene to adjust its individual layers. The MCP itself supports layered tracks; scene grouping is part of the case adapter.
+![Scene layers in the Jianying timeline](docs/assets/jianying-layers.png)
 
-![The showcase timeline with its separate scene layers](docs/assets/jianying-layers.png)
+### Batch editing
 
-## Batch edits
-
-Change the text, make it bold, adjust the size, add an outline and give it a fade-in—all in one `batch_edit` call. Each step is checked in memory; once all five pass, the tool saves one new revision. The source revision stays in place, with no intermediate media copies to clean up.
-
-Version **0.3.0** also returns compact results by default and reuses metadata for unchanged media. These changes cut repeated calls, probing and disk writes. The [performance notes](docs/performance.md) explain what was measured.
+`batch_edit` validates 1–100 operations in memory, then saves one revision. Five edits require no intermediate projects or media copies. Version 0.3.0 adds compact responses and caches unchanged media metadata. See [performance measurements](docs/performance.md).
 
 ## Get started
 
-You need **macOS and Python 3.11+**, with Jianying installed to preview and export drafts.
+Requirements: macOS, Python 3.11+, and Jianying.
 
 ```sh
 git clone https://github.com/Capricornus-joe/jianying-local-mcp.git
@@ -49,16 +45,18 @@ bash setup.sh
 bash run.sh doctor
 ```
 
-Follow the [quick start](docs/quickstart.md) to connect your MCP client and make a small text-only draft before adding your own footage. The server runs locally over stdio and exposes **22 tools**.
+See [Quick start](docs/quickstart.md) for client configuration and a first draft.
 
-## Current scope
+## Limitations
 
-This is an experimental Mac draft adapter. It edits its own managed plans; it does not read encrypted drafts, rewrite arbitrary existing projects, or reliably automate native export. Open each generated draft in your installed Jianying version, check it and export there. The showcase also used scripts outside the package for scene grouping and visual calibration, so it is not a one-click result of the general MCP or a pixel-identical reconstruction. Original footage is not included. See [compatibility](docs/compatibility.md) and the [case study](docs/case-study.md) for details.
+The Mac draft adapter is experimental and edits only its own managed plans. Changes made in Jianying do not sync back. Encrypted drafts, arbitrary existing-project editing and reliable native auto-export are unsupported. Generated drafts require review and manual export in Jianying. See [compatibility](docs/compatibility.md).
 
-## Docs and contributions
+## Docs & Contributing
 
-[Tools](docs/tools.md) · [Compatibility](docs/compatibility.md) · [Performance](docs/performance.md) · [Draft structure](docs/native-schema.md) · [Troubleshooting](docs/troubleshooting.md)
+[Tools](docs/tools.md) · [Draft structure](docs/native-schema.md) · [Troubleshooting](docs/troubleshooting.md) · [Contributing](CONTRIBUTING.md)
 
-Have a clip you want to make, or a Jianying version to test? Open an [issue](https://github.com/Capricornus-joe/jianying-local-mcp/issues) or see [Contributing](CONTRIBUTING.md). Please use synthetic media for reproductions and remove private paths and account details from logs.
+Bug reports should include versions, synthetic media and sanitized logs.
 
-The code is [MIT-licensed](LICENSE). [Third-party notices](THIRD_PARTY_NOTICES.md) and [case media rights](docs/case-study.md) still apply. This is an independent project, unaffiliated with Jianying, CapCut or ByteDance.
+## License
+
+[MIT](LICENSE). [Third-party notices](THIRD_PARTY_NOTICES.md) and [case media rights](docs/case-study.md) apply separately. Independent project; no affiliation with Jianying, CapCut or ByteDance.
