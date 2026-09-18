@@ -27,8 +27,13 @@ mcp = FastMCP(
                   "There is no native auto-export tool in this version. All times are seconds."),
     log_level="WARNING",
 )
-READ = ToolAnnotations(readOnlyHint=True, destructiveHint=False, openWorldHint=False)
-WRITE = ToolAnnotations(readOnlyHint=False, destructiveHint=False, openWorldHint=False)
+READ = ToolAnnotations(
+    readOnlyHint=True, destructiveHint=False, idempotentHint=True, openWorldHint=False,
+)
+# Writes can create new projects or unique media outputs, so retries are not guaranteed idempotent.
+WRITE = ToolAnnotations(
+    readOnlyHint=False, destructiveHint=False, idempotentHint=False, openWorldHint=False,
+)
 
 
 @mcp.tool(annotations=READ)
