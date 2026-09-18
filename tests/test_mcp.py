@@ -42,6 +42,24 @@ def test_stdio_initialize_list_tools_and_readonly_dry_run(tmp_path):
                         "read_managed_project", "create_draft", "edit_draft", "add_srt"} <= tools.keys()
                 assert tools["check_environment"].annotations.readOnlyHint is True
                 assert tools["create_draft"].annotations.destructiveHint is False
+                read_only_tools = {
+                    "check_environment", "inspect_media", "read_native_draft",
+                    "list_managed_projects", "read_managed_project",
+                    "list_motion_presets", "export_srt", "list_native_resources",
+                }
+                hint_names = {
+                    "readOnlyHint", "destructiveHint", "idempotentHint", "openWorldHint",
+                }
+                assert read_only_tools <= tools.keys()
+                for name, tool in tools.items():
+                    # Check what the stdio client received, not just server constants.
+                    annotations = tool.model_dump(exclude_unset=True)["annotations"]
+                    assert hint_names <= annotations.keys(), name
+                    assert all(type(annotations[key]) is bool for key in hint_names), name
+                    assert annotations["readOnlyHint"] is (name in read_only_tools), name
+                    assert annotations["idempotentHint"] is (name in read_only_tools), name
+                    assert annotations["destructiveHint"] is False, name
+                    assert annotations["openWorldHint"] is False, name
                 environment = tool_payload(await session.call_tool("check_environment", {}))
                 assert environment["transport"] == "stdio"
                 assert environment["network_uploads"] is False
